@@ -12,6 +12,14 @@
 
     <mvc:annotation-driven/>
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <mvc:exclude-mapping path="/user/login" /><!-- 不匹配的 -->
+            <bean class="com.dongwt.glasses.Interceptors.AuthorInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <context:component-scan base-package="com.dongwt.glasses"/>
 
     <import resource="classpath:spring/spring-mybatis.xml"/>

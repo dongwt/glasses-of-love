@@ -27,4 +27,13 @@
             </if>
         </where>
     </select>
+
+    <select id="login" parameterType="com.dongwt.glasses.api.request.LoginRequest" resultType="int">
+         SELECT
+            COUNT(1)
+        FROM
+            glasses.user
+        WHERE
+            phone = #{phone} AND password = #{password};
+    </select>
 </mapper>

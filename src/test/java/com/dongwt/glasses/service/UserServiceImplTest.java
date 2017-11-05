@@ -25,7 +25,7 @@ public class UserServiceImplTest extends BaseTest{
     @Test
     public void getUserList(){
         UserRequest userRequest = new UserRequest();
-        Response<List<User>> result =  userService.getUserList(userRequest);
+        Response<List<User>,String> result =  userService.getUserList(userRequest);
         logger.info(JSONObject.toJSONString(result));
     }
 
