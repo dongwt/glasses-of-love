@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dongwt.glasses.mapper.UserMapper">
+
+    <resultMap id="baseMap" type="com.dongwt.glasses.dao.User">
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="age" property="age"/>
+        <result column="sex" property="sex"/>
+        <result column="role" property="role"/>
+    </resultMap>
+
+    <select id="getUserList" parameterType="com.dongwt.glasses.api.request.UserRequest" resultMap="baseMap">
+        SELECT name,password,phone,email,age,sex,role
+        FROM  user
+        <where>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="email != null">
+                email = #{email}
+            </if>
+        </where>
+    </select>
+</mapper>
