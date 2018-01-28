@@ -69,7 +69,7 @@ public class BrandCtrl extends BaseCtrl {
             response.setData(data);
             return response;
         } catch (Exception e) {
-            logger.error("add brand error.", e);
+            logger.error("queryForPage error.", e);
             return Response.error();
         }
     }
