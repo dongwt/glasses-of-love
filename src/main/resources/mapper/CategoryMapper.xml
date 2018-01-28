@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dongwt.glasses.mapper.CategoryMapper">
+
+    <resultMap id="baseMap" type="com.dongwt.glasses.dao.Category">
+        <id property="id" column="id"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.dongwt.glasses.dao.Category" useGeneratedKeys="true" keyProperty="id">
+        insert into category(name)
+        value(#{name})
+    </insert>
+
+    <update id="update" parameterType="com.dongwt.glasses.dao.Category">
+        update category
+        set name = #{name}
+        where id = #{id}
+    </update>
+
+
+    <update id="delete" parameterType="com.dongwt.glasses.dao.Category">
+        update category
+        set status = 0
+        where id = #{id}
+    </update>
+
+
+    <select id="queryForPageData" parameterType="com.dongwt.glasses.api.request.CategoryRequest" resultMap="baseMap">
+        select id,name
+        from category
+        <where>
+            <if test="name != null">
+                name = #{name}
+            </if>
+        </where>
+        limit #{offset},#{pageSize}
+        <if test="sortField != null or sortOrder != null">
+            order by ${sortField} ${sortOrder}
+        </if>
+    </select>
+
+
+    <select id="queryForPageCount" parameterType="com.dongwt.glasses.api.request.CategoryRequest" resultType="java.lang.Integer">
+        select count(1)
+        from category
+        <where>
+            <if test="name != null">
+                name = #{name}
+            </if>
+        </where>
+    </select>
+
+</mapper>
