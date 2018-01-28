@@ -25,12 +25,12 @@ public class BasePageRequest implements Serializable {
     /**
      * 第几页 从1开始
      */
-    private Integer pageIndex;
+    private Integer pageIndex = 1;
 
     /**
      * 每页显示多少数据
      */
-    private Integer pageSize;
+    private Integer pageSize = 10;
 
     /**
      * 排序的字段

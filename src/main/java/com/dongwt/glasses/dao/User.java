@@ -4,10 +4,12 @@ import com.dongwt.glasses.enums.Sex;
 import lombok.Data;
 
 /**
- * Created by dongwt on 2017/11/5.
+ * 用户
  */
 @Data
 public class User {
+
+    private Long id;
 
     /**
      * 用户名
