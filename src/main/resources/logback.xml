@@ -39,7 +39,7 @@
             <!-- 每天生成一个日志文件，保存30天的日志文件
             - 如果隔一段时间没有输出日志，前面过期的日志不会被删除，只有再重新打印日志的时候，会触发删除过期日志的操作。
             -->
-            <fileNamePattern>info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>../.log/info.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
             <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>100MB</maxFileSize>
