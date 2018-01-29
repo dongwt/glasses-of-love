@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dongwt.glasses.mapper.OptometryMapper">
+
+    <resultMap id="baseMap" type="com.dongwt.glasses.dao.Optometry">
+        <id property="id" column="id"/>
+        <result column="consumer_id" property="consumerId"/>
+        <result column="left_eye_degree" property="leftEyeDegree"/>
+        <result column="right_eye_degree" property="rightEyeDegree"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.dongwt.glasses.dao.Optometry" useGeneratedKeys="true" keyProperty="id">
+        insert into optometry(consumer_id,left_eye_degree,right_eye_degree)
+        value(#{consumerId},#{leftEyeDegree},#{rightEyeDegree})
+    </insert>
+
+    <update id="update" parameterType="com.dongwt.glasses.dao.Optometry">
+        update optometry
+        <set>
+            <if test="consumerId != null">
+                consumer_id = #{consumerId},
+            </if>
+            <if test="leftEyeDegree != null">
+                left_eye_degree = #{leftEyeDegree},
+            </if>
+            <if test="rightEyeDegree != null">
+                right_eye_degree = #{rightEyeDegree},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <update id="delete" parameterType="com.dongwt.glasses.dao.Optometry">
+        update optometry
+        set status = 0
+        where id = #{id}
+    </update>
+
+
+    <select id="query" parameterType="com.dongwt.glasses.dao.Optometry" resultMap="baseMap">
+        select id,consumer_id,left_eye_degree,right_eye_degree
+        from optometry
+        <where>
+            status = 1
+            <if test="consumerId != null">
+                and consumer_id = #{consumerId}
+            </if>
+            <if test="leftEyeDegree != null">
+                and left_eye_degree = #{leftEyeDegree}
+            </if>
+            <if test="rightEyeDegree != null">
+                and right_eye_degree = #{rightEyeDegree}
+            </if>
+        </where>
+    </select>
+</mapper>
