@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dongwt.glasses.mapper.BrandCategoryMapper">
+
+    <resultMap id="baseMap" type="com.dongwt.glasses.dao.Category">
+        <id property="id" column="id"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
+
+    <insert id="add" parameterType="com.dongwt.glasses.dao.BrandCategory" useGeneratedKeys="true" keyProperty="id">
+        insert into brand_category(brand_id,category_id)
+        value(#{brandId},#{categoryId})
+    </insert>
+
+    <update id="delete" parameterType="com.dongwt.glasses.dao.BrandCategory">
+        update brand_category
+        set status = 0
+        where id = #{id}
+    </update>
+
+    <update id="batchDeleteForBrandId">
+        update brand_category
+        set status = 0
+        where brand_id = #{brandId}
+    </update>
+
+    <select id="query" resultMap="baseMap">
+        select c.id,c.name
+        from brand_category bc
+        left join category c
+        on bc.category_id = c.id
+        where c.id is not null and bc.brand_id = #{brandId} and bc.status = 1 and c.status = 1
+    </select>
+
+</mapper>

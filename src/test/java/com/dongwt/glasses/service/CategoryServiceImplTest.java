@@ -33,7 +33,7 @@ public class CategoryServiceImplTest extends BaseTest {
     @Test
     public void delete() {
         Category category = new Category();
-        category.setId(1l);
+        category.setId(3l);
         categoryService.delete(category);
     }
 

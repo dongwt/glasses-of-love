@@ -23,10 +23,10 @@ public class BrandCtrl extends BaseCtrl {
 
 
     @RequestMapping("/add")
-    public Response<String, Object> add(@RequestBody Brand brand) {
-        logger.info("request:{}", JSONObject.toJSONString(brand));
+    public Response<String, Object> add(@RequestBody BrandRequest brandRequest) {
+        logger.info("request:{}", JSONObject.toJSONString(brandRequest));
         try {
-            brandService.add(brand);
+            brandService.add(brandRequest);
         } catch (Exception e) {
             logger.error("add brand error.", e);
             return Response.error();
@@ -36,10 +36,10 @@ public class BrandCtrl extends BaseCtrl {
 
 
     @RequestMapping("/delete")
-    public Response<String, Object> delete(@RequestBody Brand brand) {
-        logger.info("request:{}", JSONObject.toJSONString(brand));
+    public Response<String, Object> delete(@RequestBody BrandRequest brandRequest) {
+        logger.info("request:{}", JSONObject.toJSONString(brandRequest));
         try {
-            brandService.delete(brand);
+            brandService.delete(brandRequest);
         } catch (Exception e) {
             logger.error("add brand error.", e);
             return Response.error();
@@ -49,10 +49,10 @@ public class BrandCtrl extends BaseCtrl {
 
 
     @RequestMapping("/update")
-    public Response<String, Object> update(@RequestBody Brand brand) {
-        logger.info("request:{}", JSONObject.toJSONString(brand));
+    public Response<String, Object> update(@RequestBody BrandRequest brandRequest) {
+        logger.info("request:{}", JSONObject.toJSONString(brandRequest));
         try {
-            brandService.update(brand);
+            brandService.update(brandRequest);
         } catch (Exception e) {
             logger.error("add brand error.", e);
             return Response.error();

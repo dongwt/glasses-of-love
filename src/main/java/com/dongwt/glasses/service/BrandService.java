@@ -1,21 +1,28 @@
 package com.dongwt.glasses.service;
 
 import com.dongwt.glasses.api.pagination.CommonPagination;
+import com.dongwt.glasses.api.request.BrandCategoryRequest;
 import com.dongwt.glasses.api.request.BrandRequest;
 import com.dongwt.glasses.dao.Brand;
+import com.dongwt.glasses.dao.Category;
+
+import java.util.List;
 
 /**
  * 品牌服务
  */
 public interface BrandService {
 
-    int add(Brand brand);
+    void add(BrandRequest brandRequest);
 
 
-    int delete(Brand brand);
+    void delete(BrandRequest brandRequest);
 
 
-    int update(Brand brand);
+    void update(BrandRequest brandRequest);
 
     CommonPagination<Brand> queryForPage(BrandRequest brandRequest);
+
+
+    List<Category> queryCategory(BrandCategoryRequest brandCategoryRequest);
 }
