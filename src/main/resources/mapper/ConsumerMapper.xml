@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dongwt.glasses.mapper.ConsumerMapper">
+
+    <resultMap id="baseMap" type="com.dongwt.glasses.dao.Consumer">
+        <id property="id" column="id"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="age" property="age"/>
+        <result column="sex" property="sex"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.dongwt.glasses.dao.Consumer" useGeneratedKeys="true" keyProperty="id">
+        insert into consumer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            name,
+            phone,
+            <if test="age != null">
+                age,
+            </if>
+            <if test="sex != null">
+                sex
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{name},
+            #{age},
+            <if test="age != null">
+                #{age},
+            </if>
+            <if test="sex != null">
+                #{sex}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.dongwt.glasses.dao.Consumer">
+        update consumer
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="sex != null">
+                sex = #{sex}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <update id="delete" parameterType="com.dongwt.glasses.dao.Consumer">
+        update consumer
+        set status = 0
+        where id = #{id}
+    </update>
+
+
+    <select id="queryForPageData" parameterType="com.dongwt.glasses.api.request.ConsumerRequest" resultMap="baseMap">
+        select id,name,phone,age,sex
+        from consumer
+        <where>
+            status = 1
+            <if test="name != null">
+              and name = #{name}
+            </if>
+        </where>
+        limit #{offset},#{pageSize}
+        <if test="sortField != null or sortOrder != null">
+            order by ${sortField} ${sortOrder}
+        </if>
+    </select>
+
+
+    <select id="queryForPageCount" parameterType="com.dongwt.glasses.api.request.ConsumerRequest" resultType="java.lang.Integer">
+        select count(1)
+        from consumer
+        <where>
+            status = 1
+            <if test="name != null">
+                and name = #{name}
+            </if>
+        </where>
+    </select>
+
+</mapper>

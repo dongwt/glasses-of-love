@@ -5,7 +5,7 @@ package com.dongwt.glasses.enums;
  */
 public enum Sex {
 
-    MAN(0, "女"), WOMAN(1, "男");
+    WOMAN(0, "女"), MAN(1, "男");
 
     Sex(Integer code, String describe) {
         this.code = code;
