@@ -51,7 +51,7 @@ public class Consumer {
      */
     private Date updatedAt;
 
-    public Sex getSex(Integer sex) {
+    public Sex getSexEnum(Integer sex) {
         return Sex.getByCode(sex);
     }
 }

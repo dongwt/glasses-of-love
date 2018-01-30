@@ -41,7 +41,7 @@ public class BrandCtrl extends BaseCtrl {
         try {
             brandService.delete(brandRequest);
         } catch (Exception e) {
-            logger.error("add brand error.", e);
+            logger.error("delete brand error.", e);
             return Response.error();
         }
         return Response.success();
@@ -54,7 +54,7 @@ public class BrandCtrl extends BaseCtrl {
         try {
             brandService.update(brandRequest);
         } catch (Exception e) {
-            logger.error("add brand error.", e);
+            logger.error("update brand error.", e);
             return Response.error();
         }
         return Response.success();

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dongwt.glasses.mapper.GoodsMapper">
+
+    <resultMap id="baseMap" type="com.dongwt.glasses.dao.Goods">
+        <id property="id" column="id"/>
+        <result column="brand_id" property="brandId"/>
+        <result column="brand_name" property="brandName"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="degree" property="degree"/>
+        <result column="purchase_price" property="purchasePrice"/>
+        <result column="retail_price" property="retailPrice"/>
+        <result column="unit" property="unit"/>
+        <result column="nums" property="nums"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.dongwt.glasses.dao.Goods" useGeneratedKeys="true" keyProperty="id">
+        insert into goods(brand_id,category_id,degree,purchase_price,retail_price,unit,nums)
+        value(#{brandId},#{categoryId},#{degree},#{purchasePrice},#{retailPrice},#{unit},#{nums})
+    </insert>
+
+    <update id="add" parameterType="com.dongwt.glasses.dao.Goods">
+        update goods
+        set nums = nums + #{nums}
+        where id = #{id}
+    </update>
+
+    <update id="reduce" parameterType="com.dongwt.glasses.dao.Goods">
+        update goods
+        set nums = nums - #{nums}
+        where id = #{id}
+    </update>
+
+    <update id="update" parameterType="com.dongwt.glasses.dao.Goods">
+        update goods
+        <set>
+            <if test="brandId != null">
+                brand_id = #{brandId},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+            <if test="degree != null">
+                degree = #{degree},
+            </if>
+            <if test="purchasePrice != null">
+                purchase_price = #{purchasePrice},
+            </if>
+            <if test="retailPrice != null">
+                retail_price = #{retailPrice},
+            </if>
+            <if test="unit != null">
+                unit = #{unit},
+            </if>
+            <if test="nums != null">
+                nums = #{nums}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <update id="delete" parameterType="com.dongwt.glasses.dao.Goods">
+        update goods
+        set status = 0
+        where id = #{id}
+    </update>
+
+
+    <select id="queryById" parameterType="com.dongwt.glasses.dao.Goods" resultMap="baseMap">
+        select g.*,b.name as brand_name,c.name as category_name
+        from goods g
+        left join brand b
+        on g.brand_id = b.id
+        left join category c
+        on g.category_id = c.id
+        where g.id = #{id}
+        and g.status = 1
+        and b.status = 1
+        and c.status = 1
+    </select>
+
+    <select id="query" parameterType="com.dongwt.glasses.dao.Goods" resultMap="baseMap">
+        select g.*,b.name as brand_name,c.name as category_name
+        from goods g
+        left join brand b
+        on g.brand_id = b.id
+        left join category c
+        on g.category_id = c.id
+        where g.brand_id = #{brandId}
+        and g.category_id = #{categoryId}
+        and g.status = 1
+        and b.status = 1
+        and c.status = 1
+        limit 1
+    </select>
+
+
+    <select id="queryForPageData" parameterType="com.dongwt.glasses.api.request.GoodsRequest" resultMap="baseMap">
+        select g.*,b.name as brand_name,c.name as category_name
+        from goods g
+        left join brand b
+        on g.brand_id = b.id
+        left join category c
+        on g.category_id = c.id
+        <where>
+            g.status = 1
+            and b.status = 1
+            and c.status = 1
+            <if test="brandId != null">
+                and g.brand_id = #{brandId}
+            </if>
+            <if test="categoryId != null">
+                and g.category_id = #{categoryId}
+            </if>
+        </where>
+        limit #{offset},#{pageSize}
+        <if test="sortField != null or sortOrder != null">
+            order by ${sortField} ${sortOrder}
+        </if>
+    </select>
+
+
+    <select id="queryForPageCount" parameterType="com.dongwt.glasses.api.request.GoodsRequest" resultType="java.lang.Integer">
+        select count(1)
+        from goods
+        <where>
+            status = 1
+            <if test="brandId != null">
+                and brand_id = #{brandId}
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+        </where>
+    </select>
+
+</mapper>
