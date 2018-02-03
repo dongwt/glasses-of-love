@@ -26,7 +26,7 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             #{name},
-            #{age},
+            #{phone},
             <if test="age != null">
                 #{age},
             </if>
@@ -64,12 +64,15 @@
 
 
     <select id="queryForPageData" parameterType="com.dongwt.glasses.api.request.ConsumerRequest" resultMap="baseMap">
-        select id,name,phone,age,sex
+        select id,name,phone,age,sex,created_at,updated_at
         from consumer
         <where>
             status = 1
             <if test="name != null">
-              and name = #{name}
+              and name like CONCAT('%','${name}','%')
+            </if>
+            <if test="phone != null">
+                and phone like CONCAT('%','${phone}','%')
             </if>
         </where>
         limit #{offset},#{pageSize}
