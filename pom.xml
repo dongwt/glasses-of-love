@@ -133,6 +133,12 @@
             <artifactId>jcl-over-slf4j</artifactId>
             <version>1.7.12</version>
         </dependency>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.9.9</version>
+        </dependency>
     </dependencies>
 
 

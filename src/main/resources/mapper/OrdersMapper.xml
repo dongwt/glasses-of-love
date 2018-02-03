@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dongwt.glasses.mapper.OrdersMapper">
+
+    <resultMap id="baseMap" type="com.dongwt.glasses.dao.Orders">
+        <id property="id" column="id"/>
+        <result column="trade_no" property="tradeNo"/>
+        <result column="consumer_name" property="consumerName"/>
+        <result column="nums" property="nums"/>
+        <result column="payable_amount" property="payableAmount"/>
+        <result column="actually_amount" property="actuallyAmount"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <collection property="ordersGoodsList" ofType="com.dongwt.glasses.dao.OrdersGoods">
+            <id column="orders_goods_id" property="ordersGoodsId"/>
+            <result column="brand_name" property="brandName"/>
+            <result column="category_name" property="categoryName"/>
+            <result column="degree" property="degree"/>
+            <result column="retail_price" property="retailPrice"/>
+            <result column="unit" property="unit"/>
+            <result column="nums" property="nums"/>
+        </collection>
+    </resultMap>
+
+    <insert id="add" parameterType="com.dongwt.glasses.dao.Orders" useGeneratedKeys="true" keyProperty="id">
+        insert into orders(trade_no,payable_amount,actually_amount)
+        value(#{tradeNo},#{payableAmount},#{actuallyAmount})
+    </insert>
+
+
+    <update id="update" parameterType="com.dongwt.glasses.dao.Orders">
+        update orders
+        <set>
+            <if test="consumerId != null">
+                consumer_id = #{consumerId},
+            </if>
+            <if test="actuallyAmount != null">
+                actually_amount = #{actuallyAmount},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <update id="delete" parameterType="com.dongwt.glasses.dao.Orders">
+        update orders
+        set status = 0
+        where id = #{id}
+    </update>
+
+
+    <select id="queryForPageData" parameterType="com.dongwt.glasses.api.request.OrdersRequest" resultMap="baseMap">
+        select o.id,o.trade_no,o.payable_amount,o.actually_amount,o.order_status,
+        c.name as consumer_name,c.phone,og.nums as goods_nums,g.degree,g.retail_price,g.unit,b.name as brand_name,ca.name as category_name
+        from orders o
+        left join consumer c
+        on o.consumer_id = c.id
+        left join orders_goods og
+        on o.id = og.orders_id
+        left join goods g
+        on og.goods_id = g.id
+        left join brand b
+        on g.brand_id = b.id
+        left join category ca
+        on g.category_id = ca.id
+        <where>
+            o.status = 1
+            <if test="tradeNo != null">
+                and o.trade_no = #{tradeNo}
+            </if>
+            <if test="consumerId != null">
+                and c.consumer_id = #{consumerId}
+            </if>
+        </where>
+        limit #{offset},#{pageSize}
+        <if test="sortField != null or sortOrder != null">
+            order by ${sortField} ${sortOrder}
+        </if>
+    </select>
+
+
+    <select id="queryForPageCount" parameterType="com.dongwt.glasses.api.request.OrdersRequest" resultType="java.lang.Integer">
+        select count(1)
+        from orders
+        <where>
+            status = 1
+            <if test="tradeNo != null">
+                and trade_no = #{tradeNo}
+            </if>
+            <if test="consumerId != null">
+                and consumer_id = #{consumerId}
+            </if>
+        </where>
+    </select>
+
+</mapper>
