@@ -67,10 +67,17 @@ public class OrdersServiceImpl implements OrdersService {
         orders.setTradeNo(generateTradeNo());
         //1.新增orders
         ordersMapper.add(orders);
-        //2.新增orders_goods
+
+        //2.新增orders_goods并减库存
         for (OrdersGoods item : orders.getOrdersGoodsList()) {
+            //新增orders_goods
             item.setOrdersId(orders.getId());
             ordersGoodsMapper.add(item);
+            //减库存
+            Goods goods = new Goods();
+            goods.setId(item.getGoodsId());
+            goods.setNums(item.getNums());
+            goodsMapper.reduce(goods);
         }
     }
 
@@ -79,10 +86,21 @@ public class OrdersServiceImpl implements OrdersService {
     public synchronized void delete(Orders orders) {
         //1.删除orders
         ordersMapper.delete(orders);
-        //2.删除orders_goods
+
+        //2.恢复库存
         OrdersGoods ordersGoods = new OrdersGoods();
         ordersGoods.setOrdersId(orders.getId());
+        List<OrdersGoods> ordersGoodsList = ordersGoodsMapper.queryByOrdersId(ordersGoods);
+        for(OrdersGoods item : ordersGoodsList){
+            Goods goods = new Goods();
+            goods.setId(item.getGoodsId());
+            goods.setNums(item.getNums());
+            goodsMapper.add(goods);
+        }
+
+        //3.删除orders_goods
         ordersGoodsMapper.deleteByOrdersId(ordersGoods);
+
     }
 
 

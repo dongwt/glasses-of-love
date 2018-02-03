@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dongwt.glasses.mapper.OrdersGoodsMapper">
 
+    <resultMap id="baseMap" type="com.dongwt.glasses.dao.OrdersGoods">
+        <id property="id" column="id"/>
+        <result column="orders_id" property="ordersId"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="nums" property="nums"/>
+    </resultMap>
+
 
     <insert id="add" parameterType="com.dongwt.glasses.dao.OrdersGoods" useGeneratedKeys="true" keyProperty="id">
         insert into orders_goods(orders_id,goods_id,nums)
@@ -13,6 +20,12 @@
         set status = 0
         where id = #{id}
     </update>
+
+    <select id="queryByOrdersId" parameterType="com.dongwt.glasses.dao.OrdersGoods" resultMap="baseMap">
+        select orders_id,goods_id,nums
+        from orders_goods
+        where status = 1 and orders_id = #{ordersId}
+    </select>
 
     <update id="deleteByOrdersId" parameterType="com.dongwt.glasses.dao.OrdersGoods">
         update orders_goods
