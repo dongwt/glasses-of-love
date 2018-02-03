@@ -18,17 +18,17 @@ public class OptometryServiceImpl implements OptometryService {
     private OptometryMapper optometryMapper;
 
     @Override
-    public void add(Optometry optometry) {
+    public synchronized void add(Optometry optometry) {
         optometryMapper.add(optometry);
     }
 
     @Override
-    public void delete(Optometry optometry) {
+    public synchronized void delete(Optometry optometry) {
         optometryMapper.delete(optometry);
     }
 
     @Override
-    public void update(Optometry optometry) {
+    public synchronized void update(Optometry optometry) {
         optometryMapper.update(optometry);
     }
 

@@ -25,17 +25,17 @@ public class ConsumerServiceImpl implements ConsumerService {
     private ConsumerMapper consumerMapper;
 
     @Override
-    public void add(Consumer consumer) {
+    public synchronized void add(Consumer consumer) {
         consumerMapper.add(consumer);
     }
 
     @Override
-    public void delete(Consumer consumer) {
+    public synchronized void delete(Consumer consumer) {
         consumerMapper.delete(consumer);
     }
 
     @Override
-    public void update(Consumer consumer) {
+    public synchronized void update(Consumer consumer) {
         consumerMapper.update(consumer);
     }
 

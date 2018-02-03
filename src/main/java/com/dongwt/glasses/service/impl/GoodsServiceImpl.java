@@ -27,7 +27,7 @@ public class GoodsServiceImpl implements GoodsService{
 
 
     @Override
-    public void insert(Goods goods) {
+    public synchronized void insert(Goods goods) {
         if(null == goodsMapper.query(goods)){
             logger.info("新增商品");
             goodsMapper.insert(goods);
@@ -35,22 +35,22 @@ public class GoodsServiceImpl implements GoodsService{
     }
 
     @Override
-    public void add(Goods goods) {
+    public synchronized void add(Goods goods) {
         goodsMapper.add(goods);
     }
 
     @Override
-    public void reduce(Goods goods) {
+    public synchronized void reduce(Goods goods) {
         goodsMapper.reduce(goods);
     }
 
     @Override
-    public void delete(Goods goods) {
+    public synchronized void delete(Goods goods) {
         goodsMapper.delete(goods);
     }
 
     @Override
-    public void update(Goods goods) {
+    public synchronized void update(Goods goods) {
         goodsMapper.update(goods);
     }
 

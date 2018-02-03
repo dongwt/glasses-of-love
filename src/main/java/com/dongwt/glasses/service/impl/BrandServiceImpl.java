@@ -32,7 +32,7 @@ public class BrandServiceImpl implements BrandService {
     private BrandCategoryMapper brandCategoryMapper;
 
 
-    private void addBrandCategory(BrandRequest brandRequest){
+    private synchronized void  addBrandCategory(BrandRequest brandRequest){
         if (null != brandRequest.getCategoryIds()) {
             for (Long categoryId : brandRequest.getCategoryIds()) {
                 BrandCategory brandCategory = new BrandCategory();
@@ -45,7 +45,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Transactional
     @Override
-    public void add(BrandRequest brandRequest) {
+    public synchronized void add(BrandRequest brandRequest) {
         //1.添加品牌
         Brand brand = new Brand();
         brand.setName(brandRequest.getName());
@@ -57,7 +57,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Transactional
     @Override
-    public void delete(BrandRequest brandRequest) {
+    public synchronized void delete(BrandRequest brandRequest) {
         //1.删除品牌
         Brand brand = new Brand();
         brand.setId(brandRequest.getId());
@@ -68,7 +68,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Transactional
     @Override
-    public void update(BrandRequest brandRequest) {
+    public synchronized void update(BrandRequest brandRequest) {
         //1.更新品牌
         Brand brand = new Brand();
         brand.setId(brandRequest.getId());

@@ -25,17 +25,17 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryMapper categoryMapper;
 
     @Override
-    public int add(Category category) {
+    public synchronized int add(Category category) {
         return categoryMapper.add(category);
     }
 
     @Override
-    public int delete(Category category) {
+    public synchronized int delete(Category category) {
         return categoryMapper.delete(category);
     }
 
     @Override
-    public int update(Category category) {
+    public synchronized int update(Category category) {
         return categoryMapper.update(category);
     }
 

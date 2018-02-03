@@ -62,7 +62,7 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Transactional
     @Override
-    public void add(Orders orders) {
+    public synchronized void add(Orders orders) {
         checkParams(orders);
         orders.setTradeNo(generateTradeNo());
         //1.新增orders
@@ -76,7 +76,7 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Transactional
     @Override
-    public void delete(Orders orders) {
+    public synchronized void delete(Orders orders) {
         //1.删除orders
         ordersMapper.delete(orders);
         //2.删除orders_goods
