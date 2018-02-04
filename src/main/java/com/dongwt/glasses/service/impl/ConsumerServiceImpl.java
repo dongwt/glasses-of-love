@@ -51,4 +51,9 @@ public class ConsumerServiceImpl implements ConsumerService {
         commonPagination.setTotal(count);
         return commonPagination;
     }
+
+    @Override
+    public List<Consumer> query(ConsumerRequest consumerRequest) {
+        return consumerMapper.query(consumerRequest);
+    }
 }

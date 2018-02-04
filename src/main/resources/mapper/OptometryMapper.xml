@@ -5,8 +5,12 @@
     <resultMap id="baseMap" type="com.dongwt.glasses.dao.Optometry">
         <id property="id" column="id"/>
         <result column="consumer_id" property="consumerId"/>
+        <result column="consumer_name" property="consumerName"/>
+        <result column="consumer_phone" property="consumerPhone"/>
         <result column="left_eye_degree" property="leftEyeDegree"/>
         <result column="right_eye_degree" property="rightEyeDegree"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
     </resultMap>
 
     <insert id="add" parameterType="com.dongwt.glasses.dao.Optometry" useGeneratedKeys="true" keyProperty="id">
@@ -51,6 +55,46 @@
             </if>
             <if test="rightEyeDegree != null">
                 and right_eye_degree = #{rightEyeDegree}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="queryForPageData" parameterType="com.dongwt.glasses.api.request.OptometryRequest" resultMap="baseMap">
+        select o.id,o.consumer_id,c.name as consumer_name,c.phone as consumer_phone,o.left_eye_degree,o.right_eye_degree,o.created_at,o.updated_at
+        from optometry o
+        left join consumer c
+        on o.consumer_id = c.id
+        <where>
+            o.status = 1
+            and c.status = 1
+            <if test="consumerName != null">
+                and c.name like CONCAT('%','${consumerName}','%')
+            </if>
+            <if test="consumerPhone != null">
+                and c.phone like CONCAT('%','${consumerPhone}','%')
+            </if>
+        </where>
+        limit #{offset},#{pageSize}
+        <if test="sortField != null or sortOrder != null">
+            order by ${sortField} ${sortOrder}
+        </if>
+    </select>
+
+
+    <select id="queryForPageCount" parameterType="com.dongwt.glasses.api.request.OptometryRequest" resultType="java.lang.Integer">
+        select count(1)
+        from optometry o
+        left join consumer c
+        on o.consumer_id = c.id
+        <where>
+            o.status = 1
+            and c.status = 1
+            <if test="consumerName != null">
+                and c.name like CONCAT('%','${consumerName}','%')
+            </if>
+            <if test="consumerPhone != null">
+                and c.phone like CONCAT('%','${consumerPhone}','%')
             </if>
         </where>
     </select>

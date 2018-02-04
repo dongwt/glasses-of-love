@@ -88,9 +88,31 @@
         <where>
             status = 1
             <if test="name != null">
-                and name = #{name}
+                and name like CONCAT('%','${name}','%')
+            </if>
+            <if test="phone != null">
+                and phone like CONCAT('%','${phone}','%')
             </if>
         </where>
+    </select>
+
+
+    <select id="query" parameterType="com.dongwt.glasses.api.request.ConsumerRequest" resultMap="baseMap">
+        select id,name,phone
+        from consumer
+        <where>
+            status = 1
+            <if test="name != null">
+                and name like CONCAT('%','${name}','%')
+            </if>
+            <if test="phone != null">
+                and phone like CONCAT('%','${phone}','%')
+            </if>
+        </where>
+        limit #{offset},#{pageSize}
+        <if test="sortField != null or sortOrder != null">
+            order by ${sortField} ${sortOrder}
+        </if>
     </select>
 
 </mapper>

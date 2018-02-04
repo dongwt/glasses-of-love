@@ -2,6 +2,8 @@ package com.dongwt.glasses.dao;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * 验光单
  */
@@ -16,6 +18,16 @@ public class Optometry {
     private Long consumerId;
 
     /**
+     * 客户名
+     */
+    private String consumerName;
+
+    /**
+     * 客户手机号
+     */
+    private String consumerPhone;
+
+    /**
      * 左眼度数
      */
     private Float leftEyeDegree;
@@ -25,4 +37,8 @@ public class Optometry {
      * 右眼度数
      */
     private Float rightEyeDegree;
+
+    private Date createdAt;
+
+    private Date updatedAt;
 }

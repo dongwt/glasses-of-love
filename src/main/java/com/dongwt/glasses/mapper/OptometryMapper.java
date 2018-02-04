@@ -1,5 +1,6 @@
 package com.dongwt.glasses.mapper;
 
+import com.dongwt.glasses.api.request.OptometryRequest;
 import com.dongwt.glasses.dao.Optometry;
 
 import java.util.List;
@@ -16,4 +17,8 @@ public interface OptometryMapper {
     int update(Optometry optometry);
 
     List<Optometry> query(Optometry optometry);
+
+    List<Optometry> queryForPageData(OptometryRequest optometryRequest);
+
+    int queryForPageCount(OptometryRequest optometryRequest);
 }

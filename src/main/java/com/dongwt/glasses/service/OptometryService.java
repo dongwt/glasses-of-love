@@ -1,5 +1,7 @@
 package com.dongwt.glasses.service;
 
+import com.dongwt.glasses.api.pagination.CommonPagination;
+import com.dongwt.glasses.api.request.OptometryRequest;
 import com.dongwt.glasses.dao.Optometry;
 
 import java.util.List;
@@ -16,4 +18,6 @@ public interface OptometryService {
     void update(Optometry optometry);
 
     List<Optometry> query(Optometry optometry);
+
+    CommonPagination<Optometry> queryForPage(OptometryRequest optometryRequest);
 }

@@ -19,4 +19,7 @@ public interface ConsumerMapper {
     List<Consumer> queryForPageData(ConsumerRequest consumerRequest);
 
     int queryForPageCount(ConsumerRequest consumerRequest);
+
+
+    List<Consumer> query(ConsumerRequest consumerRequest);
 }

@@ -1,6 +1,8 @@
 package com.dongwt.glasses.ctrl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dongwt.glasses.api.pagination.CommonPagination;
+import com.dongwt.glasses.api.request.OptometryRequest;
 import com.dongwt.glasses.api.response.Response;
 import com.dongwt.glasses.dao.Optometry;
 import com.dongwt.glasses.service.OptometryService;
@@ -70,6 +72,20 @@ public class OptometryCtrl extends BaseCtrl{
             return response;
         } catch (Exception e) {
             logger.error("query error.", e);
+            return Response.error();
+        }
+    }
+
+    @RequestMapping("/queryForPage")
+    Response<CommonPagination<Optometry>, Object> queryForPage(@RequestBody OptometryRequest optometryRequest) {
+        logger.info("request:{}", JSONObject.toJSONString(optometryRequest));
+        try {
+            CommonPagination<Optometry> data = optometryService.queryForPage(optometryRequest);
+            Response<CommonPagination<Optometry>, Object> response = Response.success();
+            response.setData(data);
+            return response;
+        } catch (Exception e) {
+            logger.error("queryForPage error.", e);
             return Response.error();
         }
     }

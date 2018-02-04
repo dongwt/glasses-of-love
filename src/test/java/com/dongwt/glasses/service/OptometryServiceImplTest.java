@@ -2,6 +2,8 @@ package com.dongwt.glasses.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dongwt.glasses.BaseTest;
+import com.dongwt.glasses.api.pagination.CommonPagination;
+import com.dongwt.glasses.api.request.OptometryRequest;
 import com.dongwt.glasses.dao.Optometry;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -51,6 +53,14 @@ public class OptometryServiceImplTest extends BaseTest {
     public void query() {
         Optometry optometry  = new Optometry();
         List<Optometry> data = optometryService.query(optometry);
+        logger.info("data:{}", JSONObject.toJSONString(data));
+    }
+
+    @Test
+    public void queryForPage() {
+        OptometryRequest optometryRequest = new OptometryRequest();
+        optometryRequest.setConsumerName("t");
+        CommonPagination<Optometry> data = optometryService.queryForPage(optometryRequest);
         logger.info("data:{}", JSONObject.toJSONString(data));
     }
 }

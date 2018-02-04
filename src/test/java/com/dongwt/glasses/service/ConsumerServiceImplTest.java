@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * Created by dongwt on 2018/1/29.
  */
@@ -54,6 +56,14 @@ public class ConsumerServiceImplTest extends BaseTest {
         ConsumerRequest consumerRequest  = new ConsumerRequest();
         CommonPagination<Consumer> data = consumerService.queryForPage(consumerRequest);
         logger.info("data:{}", JSONObject.toJSONString(data));
+    }
+
+    @Test
+    public void query() {
+        ConsumerRequest consumerRequest  = new ConsumerRequest();
+//        consumerRequest.setName("t");
+        List<Consumer> consumerList =  consumerService.query(consumerRequest);
+        logger.info("consumerList:{}", JSONObject.toJSONString(consumerList));
     }
 
 }

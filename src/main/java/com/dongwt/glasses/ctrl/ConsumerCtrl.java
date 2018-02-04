@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * Created by dongwt on 2018/1/29.
  */
@@ -69,6 +71,20 @@ public class ConsumerCtrl extends BaseCtrl {
             return response;
         } catch (Exception e) {
             logger.error("queryForPage error.", e);
+            return Response.error();
+        }
+    }
+
+    @RequestMapping("/query")
+    Response<List<Consumer>,Object> query(@RequestBody ConsumerRequest consumerRequest) {
+        logger.info("request:{}", JSONObject.toJSONString(consumerRequest));
+        try {
+            List<Consumer> data = consumerService.query(consumerRequest);
+            Response<List<Consumer>,Object> response = Response.success();
+            response.setData(data);
+            return response;
+        } catch (Exception e) {
+            logger.error("query error.", e);
             return Response.error();
         }
     }
